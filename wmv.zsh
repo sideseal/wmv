@@ -83,7 +83,7 @@ function wmv {
 			RIGHT) move_right;;
 			LEFT) move_left;;
 			ENTER) full_screen;;
-			ESC) echo "시스템 종료."; exit 0
+			ESC) echo "프로그램 종료."; exit 0
 		esac
 	done
 }
