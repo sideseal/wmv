@@ -33,15 +33,6 @@ function wmv {
 	app_name="$1"
 	app_size="$2"
 
-#	move_up() {
-# 		local horizontal=`echo "1440*$app_size" | bc`
-#		osascript \
-#		-e "on run (argv)" \
-#		-e "set horizontal to (item 2 of argv) as number" \
-#		-e "tell application (quoted form of item 1 of argv) to set bounds of window 1 to {0, 0, 2560, horizontal}" \
-#		-e "end" \
-#		-- "$app_name" "$horizontal"
-#	}
 	move_up() {
  		local horizontal=`echo "1440*$app_size" | bc`
 		osascript <<-EOF
