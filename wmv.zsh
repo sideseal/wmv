@@ -7,6 +7,8 @@ function wmv {
 	RIGHT='\[C'
 	LEFT='\[D'
 
+	echo "프로그램을 종료하시려면 ESC를 세 번 눌러주세요."
+
 	key_input() {
 		local key
 		IFS=''
@@ -31,41 +33,58 @@ function wmv {
 	app_name="$1"
 	app_size="$2"
 
+#	move_up() {
+# 		local horizontal=`echo "1440*$app_size" | bc`
+#		osascript \
+#		-e "on run (argv)" \
+#		-e "set horizontal to (item 2 of argv) as number" \
+#		-e "tell application (quoted form of item 1 of argv) to set bounds of window 1 to {0, 0, 2560, horizontal}" \
+#		-e "end" \
+#		-- "$app_name" "$horizontal"
+#	}
 	move_up() {
  		local horizontal=`echo "1440*$app_size" | bc`
-		osascript \
-		-e "on run (argv)" \
-		-e "set horizontal to (item 2 of argv) as number" \
-		-e "tell application (quoted form of item 1 of argv) to set bounds of window 1 to {0, 0, 2560, horizontal}" \
-		-e "end" \
-		-- "$app_name" "$horizontal"
+		osascript <<-EOF
+			set argv to {"$app_name", "$horizontal"}
+			set horizontal to (item 2 of argv) as number
+
+			tell application (quoted form of item 1 of argv)
+				set bounds of window 1 to {0, 0, 2560, horizontal}
+			end tell
+		EOF
 	}
 	move_down() {
  		local horizontal=`echo "1440-1440*$app_size" | bc`
-		osascript \
-		-e "on run (argv)" \
-		-e "set horizontal to (item 2 of argv) as number" \
-		-e "tell application (quoted form of item 1 of argv) to set bounds of window 1 to {0, horizontal, 2560, 1440}" \
-		-e "end" \
-		-- "$app_name" "$horizontal"
+		osascript <<-EOF
+			set argv to {"$app_name", "$horizontal"}
+			set horizontal to (item 2 of argv) as number
+
+			tell application (quoted form of item 1 of argv)
+				set bounds of window 1 to {0, horizontal, 2560, 1440}
+			end tell
+		EOF
 	}
 	move_right() {
  		local vertical=`echo "2560-2560*$app_size" | bc`
-		osascript \
-		-e "on run (argv)" \
-		-e "set vertical to (item 2 of argv) as number" \
-		-e "tell application (quoted form of item 1 of argv) to set bounds of window 1 to {vertical, 0, 2560, 1440}" \
-		-e "end" \
-		-- "$app_name" "$vertical"
+		osascript <<-EOF
+			set argv to {"$app_name", "$vertical"}
+			set vertical to (item 2 of argv) as number
+
+			tell application (quoted form of item 1 of argv)
+				set bounds of window 1 to {vertical, 0, 2560, 1440}
+			end tell
+		EOF
 	}
 	move_left() {
  		local vertical=`echo "2560*$app_size" | bc`
-		osascript \
-		-e "on run (argv)" \
-		-e "set vertical to (item 2 of argv) as number" \
-		-e "tell application (quoted form of item 1 of argv) to set bounds of window 1 to {0, 0, vertical, 1440}" \
-		-e "end" \
-		-- "$app_name" "$vertical"
+		osascript <<-EOF
+			set argv to {"$app_name", "$vertical"}
+			set vertical to (item 2 of argv) as number
+
+			tell application (quoted form of item 1 of argv)
+				set bounds of window 1 to {0, 0, vertical, 1440}
+			end tell
+		EOF
 	}
 	full_screen() {
 		osascript \
